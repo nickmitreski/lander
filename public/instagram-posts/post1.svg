@@ -1,0 +1,7 @@
+<svg width="800" height="800" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="800" fill="#f1f5f9"/>
+  <rect x="150" y="200" width="500" height="400" rx="20" fill="#e2e8f0"/>
+  <path d="M400 320C426.51 320 448 298.51 448 272C448 245.49 426.51 224 400 224C373.49 224 352 245.49 352 272C352 298.51 373.49 320 400 320Z" fill="#94a3b8"/>
+  <path d="M480 480H320C320 453.49 341.49 432 368 432H432C458.51 432 480 453.49 480 480Z" fill="#94a3b8"/>
+  <text x="400" y="580" text-anchor="middle" font-family="Arial" font-size="24" fill="#64748b">Instagram Post 1</text>
+</svg> 
