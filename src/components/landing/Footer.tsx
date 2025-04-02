@@ -22,18 +22,20 @@ export const Footer = () => {
                 <h3 className="text-gray-900 font-bold uppercase text-sm mb-4">
                   LEGAL
                 </h3>
-                <ul className="space-y-3">
-                  <li>
-                    <a href="/terms" className="text-gray-700 text-sm hover:text-blue-600 transition-colors">
-                      Terms of Service
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/privacy" className="text-gray-700 text-sm hover:text-blue-600 transition-colors">
-                      Privacy Policy
-                    </a>
-                  </li>
-                </ul>
+                <div className="flex flex-col gap-2">
+                  <Link to="/privacy" className="text-gray-400 hover:text-white transition-colors">
+                    Privacy Policy
+                  </Link>
+                  <Link to="/terms" className="text-gray-400 hover:text-white transition-colors">
+                    Terms of Service
+                  </Link>
+                  <Link to="/cookies" className="text-gray-400 hover:text-white transition-colors">
+                    Cookie Policy
+                  </Link>
+                  <Link to="/cancellation" className="text-gray-400 hover:text-white transition-colors">
+                    Cancellation Policy
+                  </Link>
+                </div>
               </div>
               
               {/* Contact Us Section */}

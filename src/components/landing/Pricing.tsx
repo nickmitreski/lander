@@ -44,54 +44,59 @@ export const Pricing = () => {
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-50/30 to-transparent"></div>
 
-      <div className="max-w-3xl mx-auto px-4 relative z-10" ref={pricingRef}>
+      <div className="max-w-6xl mx-auto px-4 relative z-10" ref={pricingRef}>
         <AnimatedSectionTitle
           firstPart="Start Your"
           highlightedPart="Growth Journey"
           subtitle="Join thousands of successful creators and businesses"
         />
 
-        <div className="mt-16 max-w-xl mx-auto">
-          <div className="pricing-card bg-gradient-to-b from-[rgba(32,140,252,1)] to-[rgba(66,157,253,1)] rounded-[32px] shadow-2xl overflow-hidden transform transition-all duration-300 hover:scale-[1.02] hover:shadow-blue-500/20">
-            {/* Top Label */}
-            <div className="bg-[rgba(42,147,255,1)] py-2 px-6">
-              <p className="text-white/80 text-sm font-medium text-center">PROFESSIONAL GROWTH PACKAGE</p>
-            </div>
-
-            {/* Header Section */}
-            <div className="p-8 text-white text-center">
-              <div className="flex justify-center items-baseline gap-1 mb-4">
-                <span className="text-5xl font-bold">$24.99</span>
-                <span className="text-white/80">/week</span>
-              </div>
-              <p className="text-white/80 text-sm">billed monthly</p>
-            </div>
-
-            {/* Features Section */}
-            <div className="bg-white rounded-t-[32px] p-8">
-              <div className="space-y-4">
-                {features.map((feature, index) => (
-                  <div key={index} className="flex items-center gap-3">
-                    <div className="flex-shrink-0 w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center">
-                      <Check className="w-3 h-3 text-[rgba(32,140,252,1)]" />
-                    </div>
-                    <span className="text-gray-700 text-sm">{feature}</span>
+        <div className="mt-16">
+          <div className="pricing-card bg-white rounded-[32px] shadow-2xl overflow-hidden transform transition-all duration-300 hover:scale-[1.02] hover:shadow-blue-500/20">
+            <div className="grid md:grid-cols-2 gap-0">
+              {/* Left side - Pricing Info */}
+              <div className="bg-gradient-to-br from-[rgba(32,140,252,0.02)] to-[rgba(32,140,252,0.08)] p-8 md:p-12 flex flex-col justify-between border-b md:border-b-0 md:border-r border-gray-100">
+                <div>
+                  <div className="inline-block px-4 py-2 bg-blue-50 rounded-full mb-6">
+                    <p className="text-blue-600 text-sm font-medium">Free 7-Day Trial for</p>
                   </div>
-                ))}
+                  <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Turbo Growth</h3>
+                  <p className="text-gray-600 mb-8">Get access to all features and updates for a monthly subscription.</p>
+                  
+                  <div className="flex items-baseline gap-2 mb-2">
+                    <span className="text-5xl md:text-6xl font-bold text-gray-900">$24.99</span>
+                    <span className="text-gray-500">/week</span>
+                  </div>
+                  <p className="text-gray-500 text-sm mb-8">billed monthly</p>
+                </div>
+
+                <div>
+                  <Button
+                    variant="blue"
+                    size="trial"
+                    className="w-full py-6 text-base font-semibold bg-gradient-to-r from-[rgba(32,140,252,1)] to-[rgba(66,157,253,1)] hover:from-[rgba(42,147,255,1)] hover:to-[rgba(76,167,255,1)] text-white transition-all duration-300 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-blue-500/20"
+                  >
+                    Get started for free
+                  </Button>
+                  <p className="text-center text-gray-500 mt-4 text-sm">
+                    Cancel anytime, no risk
+                  </p>
+                </div>
               </div>
 
-              {/* CTA Section */}
-              <div className="mt-8">
-                <Button
-                  variant="blue"
-                  size="trial"
-                  className="w-full py-4 text-base font-semibold bg-gradient-to-r from-[rgba(32,140,252,1)] to-[rgba(66,157,253,1)] hover:from-[rgba(42,147,255,1)] hover:to-[rgba(76,167,255,1)] text-white transition-all duration-300 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-blue-500/20"
-                >
-                  Start free trial
-                </Button>
-                <p className="text-center text-gray-500 mt-4 text-xs">
-                  7-day free trial, cancel anytime
-                </p>
+              {/* Right side - Features */}
+              <div className="p-8 md:p-12">
+                <h4 className="text-xl font-semibold text-gray-900 mb-8">What's included in Follow Fuse:</h4>
+                <div className="space-y-6">
+                  {features.map((feature, index) => (
+                    <div key={index} className="flex items-center gap-4">
+                      <div className="flex-shrink-0 w-5 h-5 bg-blue-50 rounded-full flex items-center justify-center">
+                        <Check className="w-3 h-3 text-blue-600" />
+                      </div>
+                      <span className="text-gray-700">{feature}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
