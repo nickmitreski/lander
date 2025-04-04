@@ -6,7 +6,7 @@ import { gsap } from 'gsap';
 import '../../lib/gsap-config';
 
 const features = [
-  "1000s of Real Followers Every Month",
+  "1000+ followers each month",
   "Dedicated Personal Account Manager",
   "Boost Your Presence on the Explore Page",
   "Expand Your Reach to Targeted Audiences",
@@ -60,7 +60,7 @@ export const Pricing = () => {
                   <div className="inline-block px-4 py-2 bg-blue-50 rounded-full mb-6">
                     <p className="text-blue-600 text-sm font-medium">Free 7-Day Trial for</p>
                   </div>
-                  <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Turbo Growth</h3>
+                  <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Growth Plan</h3>
                   <p className="text-gray-600 mb-8">Get access to all features and updates for a monthly subscription.</p>
                   
                   <div className="flex items-baseline gap-2 mb-2">

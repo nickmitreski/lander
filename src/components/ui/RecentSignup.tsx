@@ -108,8 +108,8 @@ export const RecentSignup = ({ active = true }: RecentSignupProps) => {
     <div className="fixed bottom-4 left-4 z-50 max-w-sm bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden transform transition-all duration-500 opacity-100 translate-y-0 animate-slideIn">
       <div className="flex items-start p-4">
         <div className="flex-shrink-0 mr-3">
-          <div className="h-12 w-12 rounded-lg flex items-center justify-center">
-            <img src="/Flame.png" alt="Follow Fuse" className="h-8 w-8" />
+          <div className="h-14 w-14 rounded-lg flex items-center justify-center">
+            <img src="/newfav.png" alt="Follow Fuse" className="h-10 w-10" />
           </div>
         </div>
         <div className="ml-2">

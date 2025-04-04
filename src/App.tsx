@@ -6,9 +6,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-import InstagramAnalysis from "./pages/InstagramAnalysis";
 import RecentSignup from "./components/ui/RecentSignup";
-import Chatbot from "./components/ui/Chatbot";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import CookiePolicy from "./pages/CookiePolicy";
@@ -33,12 +31,10 @@ const App = () => (
       <Toaster />
       <Sonner />
       <RecentSignup />
-      <Chatbot />
       <BrowserRouter>
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/instagram-analysis" element={<InstagramAnalysis />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/terms" element={<TermsOfService />} />
           <Route path="/cookies" element={<CookiePolicy />} />

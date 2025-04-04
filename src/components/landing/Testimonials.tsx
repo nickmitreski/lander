@@ -6,7 +6,29 @@ import '../../lib/gsap-config'; // Import GSAP configuration with ScrollTrigger
 export const Testimonials = () => {
   const [filter, setFilter] = useState("All");
   const [visibleCount, setVisibleCount] = useState(9);
+  const [isMobile, setIsMobile] = useState(false);
   const cardsContainerRef = useRef(null);
+
+  // Check if mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    // Initial check
+    checkMobile();
+    
+    // Add resize listener
+    window.addEventListener('resize', checkMobile);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  
+  // Reset visible count when filter changes or screen size changes
+  useEffect(() => {
+    setVisibleCount(isMobile ? 3 : 9);
+  }, [filter, isMobile]);
 
   // Define avatar images for reuse
   const avatarImages = [
@@ -151,7 +173,7 @@ export const Testimonials = () => {
       rating: 5
     },
 
-    // Beauty & Fashion (5)
+    // Beauty & Fashion (Adding more to reach 6)
     {
       name: "Sarah Johnson",
       text: "I've been using this service for 3 months now and my engagement has grown exponentially! The followers are real and engaged. My beauty product partnerships have doubled since I started.",
@@ -182,8 +204,26 @@ export const Testimonials = () => {
       category: "Beauty & Fashion",
       rating: 4
     },
+    {
+      name: "Lily Zhang",
+      text: "My makeup tutorials now reach a much wider audience. I've secured partnerships with major beauty brands and my online courses are selling out within days of launch.",
+      category: "Beauty & Fashion",
+      rating: 5
+    },
+    {
+      name: "Isabella Moore",
+      text: "The growth in my fashion blog's following has been incredible. I'm now able to monetize my content effectively and brands are reaching out for collaborations daily.",
+      category: "Beauty & Fashion",
+      rating: 5
+    },
+    {
+      name: "Olivia Thompson",
+      text: "As a sustainable fashion advocate, I needed to reach the right audience. This service helped me connect with eco-conscious fashion enthusiasts who support my brand's mission.",
+      category: "Beauty & Fashion",
+      rating: 5
+    },
 
-    // Photography (4)
+    // Photography (Adding more to reach 6)
     {
       name: "Emma Creative",
       text: "Amazing results for my photography business. I'm getting real inquiries from the new followers. Highly recommend! Within weeks I booked 3 wedding gigs from Instagram alone.",
@@ -208,8 +248,32 @@ export const Testimonials = () => {
       category: "Photography",
       rating: 4
     },
+    {
+      name: "Lucas Rivera",
+      text: "Since using this service, my architectural photography has gained significant recognition. I'm now getting commissioned for major real estate projects and magazine features.",
+      category: "Photography",
+      rating: 5
+    },
+    {
+      name: "Nina Patel",
+      text: "My wedding photography bookings have tripled! The targeted growth brought me exactly the kind of followers who are planning weddings and value professional photography.",
+      category: "Photography",
+      rating: 5
+    },
+    {
+      name: "James Wilson",
+      text: "The growth in my food photography account has led to multiple restaurant collaborations and cookbook deals. The followers are genuinely interested in culinary photography.",
+      category: "Photography",
+      rating: 5
+    },
+    {
+      name: "Mia Chen",
+      text: "As a fashion photographer, I needed to build a strong portfolio presence. This service connected me with fashion brands and models who now regularly book my services.",
+      category: "Photography",
+      rating: 5
+    },
 
-    // Others (Food, Travel, Tech, Art, Music, Lifestyle)
+    // Others (Food, Travel, Tech, Art, Music, Lifestyle) - Adding more to ensure variety
     {
       name: "Alex Chen",
       text: "As a food blogger, I needed real followers who would engage with my restaurant reviews. This service delivered beyond my expectations! My posts now receive 3x more saves and shares.",
@@ -269,6 +333,42 @@ export const Testimonials = () => {
       text: "My engagement rate increased from 2% to 7% within weeks of using this service. I've secured 3 long-term brand ambassador roles directly from my enhanced Instagram presence.",
       category: "Lifestyle",
       rating: 4
+    },
+    {
+      name: "Samuel Park",
+      text: "My food photography and recipe blog has exploded in popularity. Brands are now sending me products to feature, and my cookbook presales exceeded all expectations.",
+      category: "Food",
+      rating: 5
+    },
+    {
+      name: "Elena Rodriguez",
+      text: "My travel vlog subscriptions doubled after growing my Instagram presence. The authentic engagement has led to sponsored trips and hotel collaborations worldwide.",
+      category: "Travel",
+      rating: 5
+    },
+    {
+      name: "Kevin Zhang",
+      text: "As a tech startup founder, this platform helped us build credibility quickly. Our product launch reached 10x more potential users through our grown Instagram presence.",
+      category: "Tech",
+      rating: 5
+    },
+    {
+      name: "Hannah Lee",
+      text: "My art gallery's online presence has transformed. The targeted growth brought in serious art collectors and led to multiple successful virtual exhibitions.",
+      category: "Art",
+      rating: 5
+    },
+    {
+      name: "Jordan Smith",
+      text: "My music channel's following grew exponentially, leading to collaboration opportunities with major artists and record labels. The organic growth was exactly what I needed.",
+      category: "Music",
+      rating: 5
+    },
+    {
+      name: "Sophie Chen",
+      text: "As a lifestyle blogger, authentic engagement is everything. This service helped me build a genuine community that actively participates in my brand partnerships.",
+      category: "Lifestyle",
+      rating: 5
     }
   ];
 
@@ -293,8 +393,8 @@ export const Testimonials = () => {
       y: 30
     });
     
-    // Update the visible count
-    setVisibleCount(prev => Math.min(prev + 6, filteredTestimonials.length));
+    // Update the visible count - show more cards on desktop
+    setVisibleCount(prev => Math.min(prev + (isMobile ? 3 : 6), filteredTestimonials.length));
     
     // Trigger scroll to ensure the new cards are in view
     setTimeout(() => {
@@ -310,11 +410,6 @@ export const Testimonials = () => {
     }, 100);
   };
   
-  // Reset visible count when filter changes
-  useEffect(() => {
-    setVisibleCount(9);
-  }, [filter]);
-
   useEffect(() => {
     // Set initial state for cards
     gsap.set(".testimonial-card", {

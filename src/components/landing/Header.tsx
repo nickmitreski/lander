@@ -91,13 +91,6 @@ export const Header = () => {
           >
             Home
           </Link>
-          <Link
-            to="/instagram-analysis"
-            className="self-stretch px-3 py-2 rounded-xl hover:bg-gray-50 hover:text-blue-600 transition-colors"
-            onClick={() => handleNavigation('/instagram-analysis')}
-          >
-            Preview my growth
-          </Link>
           <button
             onClick={() => scrollToSection('features')}
             className="self-stretch whitespace-nowrap px-3 py-2 rounded-xl hover:bg-gray-50 hover:text-blue-600 transition-colors"
@@ -115,6 +108,12 @@ export const Header = () => {
             className="self-stretch whitespace-nowrap px-3 py-2 rounded-xl hover:bg-gray-50 hover:text-blue-600 transition-colors"
           >
             Pricing
+          </button>
+          <button
+            onClick={() => scrollToSection('faq')}
+            className="self-stretch whitespace-nowrap px-3 py-2 rounded-xl hover:bg-gray-50 hover:text-blue-600 transition-colors"
+          >
+            FAQ
           </button>
         </nav>
 
@@ -168,13 +167,6 @@ export const Header = () => {
           >
             Home
           </Link>
-          <Link
-            to="/instagram-analysis"
-            className="w-full px-4 py-3 border-b border-gray-100 hover:bg-gray-50 hover:text-blue-600 transition-colors"
-            onClick={() => handleNavigation('/instagram-analysis')}
-          >
-            Preview my growth
-          </Link>
           <button
             onClick={() => scrollToSection('features')}
             className="w-full text-left px-4 py-3 border-b border-gray-100 hover:bg-gray-50 hover:text-blue-600 transition-colors"
@@ -192,6 +184,12 @@ export const Header = () => {
             className="w-full text-left px-4 py-3 border-b border-gray-100 hover:bg-gray-50 hover:text-blue-600 transition-colors"
           >
             Pricing
+          </button>
+          <button
+            onClick={() => scrollToSection('faq')}
+            className="w-full text-left px-4 py-3 border-b border-gray-100 hover:bg-gray-50 hover:text-blue-600 transition-colors"
+          >
+            FAQ
           </button>
           
           {/* Mobile Action Buttons */}

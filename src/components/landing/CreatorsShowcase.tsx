@@ -1,6 +1,10 @@
 import AnimatedSectionTitle from './AnimatedSectionTitle';
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+
+// Register ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger);
 
 const PhoneMockupsShowcase = () => {
   const videosRef = useRef<HTMLDivElement>(null);
@@ -14,28 +18,32 @@ const PhoneMockupsShowcase = () => {
       name: "Isabella C.",
       title: "Actress",
       location: "LA",
-      video: "/Testimonial_Actress.mp4"
+      video: "/Testimonial_Actress.mp4",
+      thumbnail: "/Testimonial_Actress_thumb.jpg"
     },
     {
       id: 2,
       name: "Ethan H.",
       title: "Business Owner",
       location: "Melbourne",
-      video: "/Testimonial_Business_Owner.mp4"
+      video: "/Testimonial_Business_Owner.mp4",
+      thumbnail: "/Testimonial_Business_Owner_thumb.jpg"
     },
     {
       id: 3,
       name: "Valeria R.",
       title: "Influencer",
       location: "Madrid",
-      video: "/Testimonial_Influencer.mp4"
+      video: "/Testimonial_Influencer.mp4",
+      thumbnail: "/Testimonial_Influencer_thumb.jpg"
     },
     {
       id: 4,
       name: "Adam R.",
       title: "Personal Trainer",
       location: "Dubai",
-      video: "/Testimonial_Personal_Trainer.mp4"
+      video: "/Testimonial_Personal_Trainer.mp4",
+      thumbnail: "/Testimonial_Personal_Trainer_thumb.jpg"
     }
   ];
 
@@ -44,33 +52,67 @@ const PhoneMockupsShowcase = () => {
     if (videosRef.current) {
       const videoEls = videosRef.current.querySelectorAll('.testimonial-video');
       
-      gsap.fromTo(
-        videoEls,
-        { y: 30, opacity: 0 },
-        { 
-          y: 0, 
-          opacity: 1, 
-          stagger: 0.15,
-          duration: 0.6,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: videosRef.current,
-            start: "top 80%",
-          }
+      // Set initial state
+      gsap.set(videoEls, { y: 30, opacity: 0 });
+      
+      // Create timeline for smooth animation
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: videosRef.current,
+          start: "top 80%",
+          end: "top 50%",
+          toggleActions: "play none none reverse",
+          scrub: 0.5
         }
-      );
+      });
+
+      // Add staggered animations to timeline
+      tl.to(videoEls, {
+        y: 0,
+        opacity: 1,
+        duration: 0.6,
+        stagger: {
+          amount: 0.4,
+          ease: "power2.out"
+        }
+      });
     }
+
+    // Cleanup function
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
   }, []);
 
   // Toggle video play/pause
-  const toggleVideo = (id: number, videoEl: HTMLVideoElement) => {
-    if (playingVideos[id]) {
-      videoEl.pause();
-      setPlayingVideos(prev => ({...prev, [id]: false}));
-    } else {
-      videoEl.play();
-      setPlayingVideos(prev => ({...prev, [id]: true}));
-    }
+  const toggleVideo = (id: number) => {
+    setPlayingVideos(prev => {
+      const newState = { ...prev, [id]: !prev[id] };
+      
+      // After state update, handle video element
+      setTimeout(() => {
+        const videoEl = document.getElementById(`video-${id}`) as HTMLVideoElement;
+        if (videoEl) {
+          if (newState[id]) {
+            // Set video sources only when playing
+            const videoSrc = testimonials.find(t => t.id === id)?.video || '';
+            videoEl.innerHTML = `
+              <source src="${videoSrc}" type="video/quicktime" />
+              <source src="${videoSrc.replace('.mov', '.mp4')}" type="video/mp4" />
+            `;
+            videoEl.load();
+            videoEl.play();
+          } else {
+            videoEl.pause();
+            videoEl.currentTime = 0;
+            // Clear video sources when paused
+            videoEl.innerHTML = '';
+          }
+        }
+      }, 0);
+      
+      return newState;
+    });
   };
 
   return (
@@ -118,32 +160,36 @@ const PhoneMockupsShowcase = () => {
                 </div>
 
                 {/* Video container */}
-                <div className="aspect-[9/16] bg-[#111] rounded-lg overflow-hidden shadow-lg">
-                  {/* Video content */}
+                <div className="aspect-[9/16] bg-black rounded-lg overflow-hidden shadow-lg relative">
+                  {/* Video element */}
                   <video 
                     className="w-full h-full object-cover rounded-lg"
+                    style={{ visibility: playingVideos[testimonial.id] ? 'visible' : 'hidden' }}
                     loop
                     playsInline
                     id={`video-${testimonial.id}`}
-                  >
-                    <source src={testimonial.video} type="video/quicktime" />
-                    <source src={testimonial.video.replace('.mov', '.mp4')} type="video/mp4" />
-                    <div className="w-full h-full flex items-center justify-center text-white text-center p-4">
-                      Your browser does not support the video format. Please try using Safari or convert the video to MP4 format.
-                    </div>
-                  </video>
+                  />
+
+                  {/* Black blocker - only show when video is not playing */}
+                  <div 
+                    className="absolute inset-0 bg-black z-10"
+                    style={{ display: playingVideos[testimonial.id] ? 'none' : 'block' }}
+                  />
+
+                  {/* Thumbnail overlay */}
+                  <img 
+                    src={testimonial.thumbnail}
+                    alt={`${testimonial.name} thumbnail`}
+                    className="absolute inset-0 w-full h-full object-cover z-20"
+                    style={{ display: playingVideos[testimonial.id] ? 'none' : 'block' }}
+                  />
                   
                   {/* Play button overlay */}
                   <button 
-                    className={`absolute inset-0 w-full h-full flex items-center justify-center z-20 transition-opacity ${playingVideos[testimonial.id] ? 'opacity-0 hover:opacity-100' : 'opacity-100'}`}
-                    onClick={(e) => {
-                      const videoEl = document.getElementById(`video-${testimonial.id}`) as HTMLVideoElement;
-                      if (videoEl) {
-                        toggleVideo(testimonial.id, videoEl);
-                      }
-                    }}
+                    className="absolute inset-0 w-full h-full flex items-center justify-center z-30"
+                    onClick={() => toggleVideo(testimonial.id)}
                   >
-                    <div className="bg-white/30 backdrop-blur-sm rounded-full p-5 hover:bg-white/40 transition duration-200">
+                    <div className={`bg-white/30 backdrop-blur-sm rounded-full p-5 hover:bg-white/40 transition duration-200 ${playingVideos[testimonial.id] ? 'opacity-0 hover:opacity-100' : 'opacity-100'}`}>
                       {playingVideos[testimonial.id] ? (
                         <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />

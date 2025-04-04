@@ -127,10 +127,10 @@ export const FAQ = () => {
               value={`item-${index}`}
               className="faq-accordion-item transition-all duration-300 shadow-md rounded-lg overflow-hidden bg-white"
             >
-              <AccordionTrigger className="text-xl font-bold py-8 px-6 bg-white hover:text-blue-500 transition-colors duration-300">
+              <AccordionTrigger className="text-left w-full text-base font-bold py-8 px-6 bg-white hover:text-blue-500 transition-colors duration-300">
                 {faq.question}
               </AccordionTrigger>
-              <AccordionContent className="px-6 py-4 text-gray-600">
+              <AccordionContent className="px-6 py-4 text-gray-600 text-left text-base">
                 {faq.answer}
               </AccordionContent>
             </AccordionItem>
