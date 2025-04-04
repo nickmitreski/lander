@@ -1,16 +1,19 @@
-import { useRef, useEffect } from "react";
-import accelerate from "@/assets/accelerate.png";
+import { useRef, useEffect, useState } from "react";
+import monetise from "@/assets/monetise.png";
+import monetise2 from "@/assets/monetise2.png";
 import { gsap } from "gsap";
 
 const AccelerateCard = () => {
   const cardRef = useRef(null);
   const containerRef = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     const el = cardRef.current;
     const container = containerRef.current;
     
     const handleMouseMove = (e) => {
+      setIsHovered(true);
       const rect = container.getBoundingClientRect();
       // Get mouse position relative to the container
       const x = e.clientX - rect.left;
@@ -31,6 +34,7 @@ const AccelerateCard = () => {
     };
     
     const handleMouseLeave = () => {
+      setIsHovered(false);
       gsap.to(el, {
         rotationY: 0,
         rotationX: 0,
@@ -56,10 +60,15 @@ const AccelerateCard = () => {
     >
       <img 
         ref={cardRef}
-        src={accelerate} 
-        alt="Growth metrics" 
-        className="w-auto max-h-[180px] object-contain transform-gpu"
-        style={{ transformStyle: "preserve-3d" }}
+        src={isHovered ? monetise2 : monetise} 
+        alt="Monetization statistics" 
+        className="w-auto max-h-[180px] object-contain transform-gpu transition-all duration-300"
+        style={{ 
+          transformStyle: "preserve-3d",
+          imageRendering: 'crisp-edges',
+          backfaceVisibility: 'hidden',
+          willChange: 'transform'
+        }}
       />
     </div>
   );

@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import monetise from "@/assets/monetise.png";
+import accelerate from "@/assets/accelerate.png";
 import { gsap } from "gsap";
 
 const MonetiseCard = () => {
@@ -99,9 +99,14 @@ const MonetiseCard = () => {
       {/* Main image */}
       <img 
         ref={imageRef}
-        src={monetise} 
-        alt="Monetization statistics" 
-        className="w-auto max-h-[180px] object-contain relative z-10"
+        src={accelerate} 
+        alt="Growth metrics" 
+        className="w-auto max-h-[180px] object-contain relative z-10 transform-gpu"
+        style={{ 
+          imageRendering: 'crisp-edges',
+          backfaceVisibility: 'hidden',
+          willChange: 'transform'
+        }}
       />
       
       {/* Particle effect on hover */}
