@@ -4,56 +4,76 @@ import personalSupport2 from "@/assets/personalsupportmessage2.png";
 import { gsap } from "gsap";
 
 const SupportCard = () => {
+  const containerRef = useRef(null);
   const card1Ref = useRef(null);
   const card2Ref = useRef(null);
-  const containerRef = useRef(null);
 
   useEffect(() => {
+    // Initial setup
+    gsap.set(card1Ref.current, {
+      y: -30,
+      opacity: 0
+    });
+    
+    gsap.set(card2Ref.current, {
+      y: 40,
+      opacity: 0
+    });
+
+    // Animate in
+    gsap.to(card1Ref.current, {
+      y: -30,
+      opacity: 1,
+      duration: 0.6,
+      delay: 0.2
+    });
+    
+    gsap.to(card2Ref.current, {
+      y: 40,
+      opacity: 0.95,
+      duration: 0.6,
+      delay: 0.4
+    });
+
+    // Add hover animation
     const container = containerRef.current;
     
-    const hoverEffect = () => {
+    const onHover = () => {
       gsap.to(card1Ref.current, {
         y: -45,
-        rotation: -3,
-        scale: 1.08,
-        duration: 0.5,
-        ease: "power2.out"
+        scale: 0.95,
+        duration: 0.3
       });
       
       gsap.to(card2Ref.current, {
-        y: 60,
-        rotation: 3,
-        scale: 0.92,
-        duration: 0.5,
-        delay: 0.1,
-        ease: "power2.out"
+        y: 15,
+        scale: 1.1,
+        opacity: 1,
+        duration: 0.3
       });
     };
     
-    const resetEffect = () => {
+    const onLeave = () => {
       gsap.to(card1Ref.current, {
         y: -30,
-        rotation: 0,
         scale: 1,
-        duration: 0.5,
-        ease: "elastic.out(1, 0.5)"
+        duration: 0.3
       });
       
       gsap.to(card2Ref.current, {
         y: 40,
-        rotation: 0,
-        scale: 0.9,
-        duration: 0.5,
-        ease: "elastic.out(1, 0.5)"
+        scale: 1,
+        opacity: 0.95,
+        duration: 0.3
       });
     };
     
-    container.addEventListener("mouseenter", hoverEffect);
-    container.addEventListener("mouseleave", resetEffect);
+    container.addEventListener('mouseenter', onHover);
+    container.addEventListener('mouseleave', onLeave);
     
     return () => {
-      container.removeEventListener("mouseenter", hoverEffect);
-      container.removeEventListener("mouseleave", resetEffect);
+      container.removeEventListener('mouseenter', onHover);
+      container.removeEventListener('mouseleave', onLeave);
     };
   }, []);
 
@@ -68,21 +88,14 @@ const SupportCard = () => {
         src={personalSupport1} 
         alt="Support message 1" 
         className="absolute w-auto max-h-[170px] object-contain" 
-        style={{ 
-          transform: 'translateY(-30px)'
-        }} 
       />
       
-      {/* Bottom card - smaller */}
+      {/* Bottom card - now even larger */}
       <img 
         ref={card2Ref}
         src={personalSupport2} 
         alt="Support message 2" 
-        className="absolute w-auto max-h-[75px] object-contain" 
-        style={{ 
-          transform: 'translateY(40px)', 
-          opacity: 0.95
-        }} 
+        className="absolute w-auto max-h-[140px] object-contain" 
       />
     </div>
   );

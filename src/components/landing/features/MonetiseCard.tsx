@@ -101,7 +101,7 @@ const MonetiseCard = () => {
         ref={imageRef}
         src={accelerate} 
         alt="Growth metrics" 
-        className="w-auto max-h-[180px] object-contain relative z-10 transform-gpu"
+        className="w-auto max-h-[400px] object-contain relative z-10 transform-gpu"
         style={{ 
           imageRendering: 'crisp-edges',
           backfaceVisibility: 'hidden',

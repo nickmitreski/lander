@@ -29,12 +29,6 @@ export const Footer = () => {
                   <Link to="/terms" className="text-gray-400 hover:text-white transition-colors">
                     Terms of Service
                   </Link>
-                  <Link to="/cookies" className="text-gray-400 hover:text-white transition-colors">
-                    Cookie Policy
-                  </Link>
-                  <Link to="/cancellation" className="text-gray-400 hover:text-white transition-colors">
-                    Cancellation Policy
-                  </Link>
                 </div>
               </div>
               

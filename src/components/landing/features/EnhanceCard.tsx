@@ -7,8 +7,8 @@ const EnhanceCard = () => {
       {/* Larger front card - moves to back on hover */}
       <div className="absolute inset-0 flex items-center justify-center transform transition-all duration-500 z-20 group-hover:z-10 group-hover:-translate-y-3 group-hover:scale-90">
         <img 
-          src={enhance1} 
-          alt="Profile stats showing follower growth" 
+          src={enhance2} 
+          alt="Profile engagement metrics" 
           className="w-auto h-auto max-h-[180px] object-contain"
         />
       </div>
@@ -16,8 +16,8 @@ const EnhanceCard = () => {
       {/* Smaller back card - moves to front on hover */}
       <div className="absolute inset-0 flex items-center justify-center transform transition-all duration-500 translate-y-4 scale-90 z-10 group-hover:z-20 group-hover:translate-y-0 group-hover:scale-100">
         <img 
-          src={enhance2} 
-          alt="Profile engagement metrics" 
+          src={enhance1} 
+          alt="Profile stats showing follower growth" 
           className="w-auto h-auto max-h-[180px] object-contain"
         />
       </div>

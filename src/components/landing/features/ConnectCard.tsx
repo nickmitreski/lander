@@ -161,12 +161,12 @@ const ConnectCard = () => {
       className="relative w-full h-full flex items-center justify-center rounded-lg transition-all duration-300"
       style={{ perspective: "1000px" }}
     >
-      <div className="flex items-center justify-center relative" style={{ width: '100%', height: '220px' }}>
+      <div className="flex items-center justify-center relative" style={{ width: '100%', height: '260px' }}>
         <img 
           ref={card1Ref}
           src={connect1} 
           alt="User profile 1" 
-          className={`w-[120px] h-[120px] object-contain absolute transition-all duration-300 ${isActive ? 'filter-none' : ''}`}
+          className={`w-[160px] h-[160px] object-contain absolute transition-all duration-300 ${isActive ? 'filter-none' : ''}`}
           style={{ 
             left: "25%",
             zIndex: 10,
@@ -179,7 +179,7 @@ const ConnectCard = () => {
           ref={card2Ref}
           src={connect2} 
           alt="User profile 2" 
-          className={`w-[120px] h-[120px] object-contain absolute transition-all duration-300 ${isActive ? 'filter-none' : ''}`}
+          className={`w-[160px] h-[160px] object-contain absolute transition-all duration-300 ${isActive ? 'filter-none' : ''}`}
           style={{ 
             left: "50%", 
             transform: "translateX(-50%)",
@@ -193,7 +193,7 @@ const ConnectCard = () => {
           ref={card3Ref}
           src={connect3} 
           alt="User profile 3" 
-          className={`w-[120px] h-[120px] object-contain absolute transition-all duration-300 ${isActive ? 'filter-none' : ''}`}
+          className={`w-[160px] h-[160px] object-contain absolute transition-all duration-300 ${isActive ? 'filter-none' : ''}`}
           style={{ 
             right: "25%",
             zIndex: 10,
