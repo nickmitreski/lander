@@ -19,31 +19,6 @@ Follow Fuse is a platform that helps users boost their Instagram with real, enga
 - Node.js 16+ and npm
 - Modern web browser
 
-### Installation
-
-1. Clone the repository
-   ```
-   git clone https://github.com/yourusername/follow-fuse.git
-   cd follow-fuse
-   ```
-
-2. Install dependencies
-   ```
-   npm install
-   ```
-
-3. Start the development server
-   ```
-   npm run dev
-   ```
-
-4. For backend services
-   ```
-   node server.js
-   ```
-
-5. Visit `http://localhost:8080` in your browser
-
 ## Technology Stack
 
 - React with TypeScript
