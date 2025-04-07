@@ -12,14 +12,20 @@ const ConnectCard = () => {
   const card3Ref = useRef(null);
   const [isActive, setIsActive] = useState(false);
   
+  // Add timestamp to bypass caching
+  const timestamp = new Date().getTime();
+  const connect1WithTimestamp = `${connect1}?t=${timestamp}`;
+  const connect2WithTimestamp = `${connect2}?t=${timestamp}`;
+  const connect3WithTimestamp = `${connect3}?t=${timestamp}`;
+
   // Remove the pulse animation that adds visible elements around images
   useEffect(() => {
     const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
     
-    // Initial state - more spread apart
+    // Initial state - closer together
     gsap.set(card1Ref.current, {
       opacity: 0,
-      x: -20,
+      x: -15,  // Reduced from -20
       y: 10,
       scale: 0.9,
       rotation: -5
@@ -33,13 +39,13 @@ const ConnectCard = () => {
     
     gsap.set(card3Ref.current, {
       opacity: 0,
-      x: 20,
+      x: 15,  // Reduced from 20
       y: 10,
       scale: 0.9,
       rotation: 5
     });
     
-    // Animation sequence with more dramatic entrances
+    // Animation sequence with closer positioning
     timeline
       .to(card2Ref.current, { 
         opacity: 1, 
@@ -50,7 +56,7 @@ const ConnectCard = () => {
       })
       .to(card1Ref.current, { 
         opacity: 1, 
-        x: -30,
+        x: -25,  // Reduced from -30
         y: 0, 
         scale: 1, 
         rotation: -5,
@@ -58,7 +64,7 @@ const ConnectCard = () => {
       }, "-=0.3")
       .to(card3Ref.current, { 
         opacity: 1, 
-        x: 30,
+        x: 25,  // Reduced from 30
         y: 0, 
         scale: 1, 
         rotation: 5,
@@ -76,9 +82,9 @@ const ConnectCard = () => {
       const moveX = (clientX - centerX) / 12;
       const moveY = (clientY - centerY) / 12;
       
-      // On hover, bring images closer together with more dramatic effects
+      // On hover, bring images even closer together
       gsap.to(card1Ref.current, { 
-        x: -20 - moveX, 
+        x: -15 - moveX,  // Reduced from -20
         y: -moveY, 
         rotation: -moveX / 2 - 3,
         scale: 1.15,
@@ -97,7 +103,7 @@ const ConnectCard = () => {
       });
       
       gsap.to(card3Ref.current, { 
-        x: 20 + moveX, 
+        x: 15 + moveX,  // Reduced from 20
         y: -moveY, 
         rotation: moveX / 2 + 3,
         scale: 1.15,
@@ -108,9 +114,9 @@ const ConnectCard = () => {
 
     const resetPosition = () => {
       setIsActive(false);
-      // Spread them apart again on mouse leave with spring effect
+      // Reset to closer positions
       gsap.to(card1Ref.current, { 
-        x: -30,
+        x: -25,  // Reduced from -30
         y: 0, 
         rotation: -5,
         scale: 1,
@@ -130,7 +136,7 @@ const ConnectCard = () => {
       });
       
       gsap.to(card3Ref.current, { 
-        x: 30,
+        x: 25,  // Reduced from 30
         y: 0, 
         rotation: 5,
         scale: 1,
@@ -167,13 +173,13 @@ const ConnectCard = () => {
       className="w-full h-full relative flex items-center justify-center"
     >
       {/* Left card */}
-      <div ref={card1Ref} className="absolute left-[20%]">
+      <div ref={card1Ref} className="absolute left-[25%]">  {/* Increased from 20% */}
         <ResponsiveImage 
-          src={connect1} 
+          src={connect1WithTimestamp} 
           alt="User profile 1" 
-          className="w-[162px] h-[162px] object-contain" 
-          widths={[162, 324, 486]}
-          sizes={['162px']}
+          className="w-[146px] h-[146px] object-contain" 
+          widths={[146, 292, 438]}
+          sizes={['146px']}
           style={{
             imageRendering: 'crisp-edges',
             transform: 'translateZ(0)',
@@ -185,11 +191,11 @@ const ConnectCard = () => {
       {/* Center card */}
       <div ref={card2Ref} className="absolute">
         <ResponsiveImage 
-          src={connect2} 
-          alt="User profile 2" 
-          className="w-[162px] h-[162px] object-contain" 
-          widths={[162, 324, 486]}
-          sizes={['162px']}
+          src={connect2WithTimestamp} 
+          alt="@janeassens profile" 
+          className="w-[146px] h-[146px] object-contain rounded-full" 
+          widths={[146, 292, 438]}
+          sizes={['146px']}
           style={{
             imageRendering: 'crisp-edges',
             transform: 'translateZ(0)',
@@ -199,13 +205,13 @@ const ConnectCard = () => {
       </div>
       
       {/* Right card */}
-      <div ref={card3Ref} className="absolute right-[20%]">
+      <div ref={card3Ref} className="absolute right-[25%]">  {/* Increased from 20% */}
         <ResponsiveImage 
-          src={connect3} 
+          src={connect3WithTimestamp} 
           alt="User profile 3" 
-          className="w-[162px] h-[162px] object-contain" 
-          widths={[162, 324, 486]}
-          sizes={['162px']}
+          className="w-[146px] h-[146px] object-contain" 
+          widths={[146, 292, 438]}
+          sizes={['146px']}
           style={{
             imageRendering: 'crisp-edges',
             transform: 'translateZ(0)',

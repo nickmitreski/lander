@@ -128,7 +128,15 @@ const FeatureCard = ({ title, description, children, isWide = false }: FeatureCa
       onMouseLeave={handleMouseLeave}
       onTouchStart={handleTouchStart}
     >
-      <div className={`relative w-full h-[120px] sm:h-[140px] md:h-[160px] flex items-center justify-center overflow-visible mb-3 md:mb-4 transition-transform duration-300 ${isHovered && !isMobile ? 'transform scale-105' : ''}`}>
+      <div 
+        className={`relative w-full h-[180px] sm:h-[140px] md:h-[160px] flex items-center justify-center overflow-visible mb-3 md:mb-4 transition-transform duration-300 ${isHovered && !isMobile ? 'transform scale-105' : ''}`}
+        style={{
+          imageRendering: '-webkit-optimize-contrast',
+          backfaceVisibility: 'hidden',
+          WebkitFontSmoothing: 'antialiased',
+          transform: 'translateZ(0)',
+          willChange: 'transform'
+        }}>
         {children}
       </div>
       <div className="space-y-1 sm:space-y-2">
