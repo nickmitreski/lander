@@ -22,10 +22,10 @@ const ConnectCard = () => {
   useEffect(() => {
     const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
     
-    // Initial state - closer together
+    // Initial state - with responsive spacing
     gsap.set(card1Ref.current, {
       opacity: 0,
-      x: -15,  // Reduced from -20
+      x: window.innerWidth < 640 ? -35 : -15,  // More space on mobile
       y: 10,
       scale: 0.9,
       rotation: -5
@@ -39,13 +39,13 @@ const ConnectCard = () => {
     
     gsap.set(card3Ref.current, {
       opacity: 0,
-      x: 15,  // Reduced from 20
+      x: window.innerWidth < 640 ? 35 : 15,  // More space on mobile
       y: 10,
       scale: 0.9,
       rotation: 5
     });
     
-    // Animation sequence with closer positioning
+    // Animation sequence with responsive positioning
     timeline
       .to(card2Ref.current, { 
         opacity: 1, 
@@ -56,7 +56,7 @@ const ConnectCard = () => {
       })
       .to(card1Ref.current, { 
         opacity: 1, 
-        x: -25,  // Reduced from -30
+        x: window.innerWidth < 640 ? -45 : -25,  // More space on mobile
         y: 0, 
         scale: 1, 
         rotation: -5,
@@ -64,7 +64,7 @@ const ConnectCard = () => {
       }, "-=0.3")
       .to(card3Ref.current, { 
         opacity: 1, 
-        x: 25,  // Reduced from 30
+        x: window.innerWidth < 640 ? 45 : 25,  // More space on mobile
         y: 0, 
         scale: 1, 
         rotation: 5,
@@ -82,9 +82,12 @@ const ConnectCard = () => {
       const moveX = (clientX - centerX) / 12;
       const moveY = (clientY - centerY) / 12;
       
-      // On hover, bring images even closer together
+      const isMobile = window.innerWidth < 640;
+      const baseX = isMobile ? 35 : 15;  // Base position for hover state
+      
+      // On hover, bring images closer together
       gsap.to(card1Ref.current, { 
-        x: -15 - moveX,  // Reduced from -20
+        x: -baseX - moveX,
         y: -moveY, 
         rotation: -moveX / 2 - 3,
         scale: 1.15,
@@ -103,7 +106,7 @@ const ConnectCard = () => {
       });
       
       gsap.to(card3Ref.current, { 
-        x: 15 + moveX,  // Reduced from 20
+        x: baseX + moveX,
         y: -moveY, 
         rotation: moveX / 2 + 3,
         scale: 1.15,
@@ -114,9 +117,12 @@ const ConnectCard = () => {
 
     const resetPosition = () => {
       setIsActive(false);
-      // Reset to closer positions
+      const isMobile = window.innerWidth < 640;
+      const baseX = isMobile ? 45 : 25;  // Base position for non-hover state
+      
+      // Reset to initial positions with more space on mobile
       gsap.to(card1Ref.current, { 
-        x: -25,  // Reduced from -30
+        x: -baseX,
         y: 0, 
         rotation: -5,
         scale: 1,
@@ -136,7 +142,7 @@ const ConnectCard = () => {
       });
       
       gsap.to(card3Ref.current, { 
-        x: 25,  // Reduced from 30
+        x: baseX,
         y: 0, 
         rotation: 5,
         scale: 1,
