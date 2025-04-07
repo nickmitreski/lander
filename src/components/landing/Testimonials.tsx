@@ -507,7 +507,7 @@ export const Testimonials = () => {
   };
 
   return (
-    <section id="testimonials" className="py-20 bg-white relative">
+    <section id="testimonials" className="py-12 sm:py-20 bg-white relative">
       <div className="max-w-7xl mx-auto px-4">
         <AnimatedSectionTitle
           firstPart="Trusted by"

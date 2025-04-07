@@ -107,7 +107,7 @@ export const FAQ = () => {
   }, []);
   
   return (
-    <section id="faq" className="py-20 bg-white relative">
+    <section id="faq" className="py-12 sm:py-20 bg-white relative">
       <div className="max-w-4xl mx-auto px-4">
         <AnimatedSectionTitle
           firstPart="Frequently asked"

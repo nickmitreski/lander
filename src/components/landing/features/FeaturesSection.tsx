@@ -128,8 +128,8 @@ const FeaturesSection = () => {
   }, [currentIndex]);
 
   return (
-    <section id="features" className="w-full pt-16 pb-8 sm:pb-12 bg-white relative z-10">
-      <div className="container mx-auto px-4 sm:px-6 pt-16 sm:pt-20 md:pt-24">
+    <section id="features" className="w-full pt-8 sm:pt-16 pb-4 sm:pb-8 bg-white relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 pt-8 sm:pt-16 md:pt-24">
         <AnimatedSectionTitle
           firstPart="Save Time & See Results"
           highlightedPart="Fast"

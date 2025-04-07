@@ -40,7 +40,7 @@ export const Pricing = () => {
   }, []);
 
   return (
-    <section id="pricing" className="py-20 bg-[#f8f9ff] relative overflow-hidden">
+    <section id="pricing" className="py-12 sm:py-20 bg-[#f8f9ff] relative overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-50/30 to-transparent"></div>
 

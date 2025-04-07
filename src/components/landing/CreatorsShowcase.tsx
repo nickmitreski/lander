@@ -116,7 +116,7 @@ const PhoneMockupsShowcase = () => {
   };
 
   return (
-    <section id="creators" className="py-24 bg-[rgba(246,246,249,1)] relative z-10 overflow-hidden">
+    <section id="creators" className="py-12 sm:py-24 bg-[rgba(246,246,249,1)] relative z-10 overflow-hidden">
       <div className="max-w-[90rem] mx-auto px-4">
         <AnimatedSectionTitle
           firstPart="Trusted by Creators and Businesses"
