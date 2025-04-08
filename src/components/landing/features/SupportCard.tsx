@@ -122,7 +122,7 @@ const SupportCard = () => {
         <ResponsiveImage 
           src={personalSupport2} 
           alt="Support message 2" 
-          className="w-auto h-[73px] sm:h-[87px] max-h-[73px] sm:max-h-[87px] !important object-contain"
+          className="w-auto h-[90px] sm:h-[87px] max-h-[90px] sm:max-h-[87px] !important object-contain"
           style={{
             width: 'auto',
             imageRendering: 'crisp-edges'

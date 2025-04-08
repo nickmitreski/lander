@@ -3,13 +3,24 @@ import { gsap } from "gsap";
 
 const MonetiseImages = () => {
   const [isHovering, setIsHovering] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const containerRef = useRef(null);
   const counterRef = useRef(null);
   const barRef = useRef(null);
   const followersRef = useRef(null);
 
   useEffect(() => {
-    // Initialize GSAP animations
+    // Check if mobile on initial mount and resize
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // Use 768px as the breakpoint (adjust if needed)
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    // Initialize GSAP animations based on isHovering state
     if (isHovering) {
       // Animate counter from +58 to +1435
       gsap.to(counterRef.current, {
@@ -33,7 +44,7 @@ const MonetiseImages = () => {
         ease: "power2.out"
       });
     } else {
-      // Reset animations
+      // Reset animations (ensure initial state)
       gsap.to(counterRef.current, {
         textContent: "+58",
         duration: 1,
@@ -55,12 +66,31 @@ const MonetiseImages = () => {
     }
   }, [isHovering]);
 
+  const handleMouseEnter = () => {
+    if (!isMobile) {
+      setIsHovering(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (!isMobile) {
+      setIsHovering(false);
+    }
+  };
+
+  const handleClick = () => {
+    if (isMobile) {
+      setIsHovering(prev => !prev); // Toggle state on mobile click/tap
+    }
+  };
+
   return (
     <div 
       ref={containerRef}
       className="relative w-[240px] h-[130px] bg-white rounded-lg overflow-hidden cursor-pointer shadow-custom-blur"
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
     >
       {/* Counter Text - Positioned Top-Left */}
       <div className="absolute top-4 left-4 z-20"> 
