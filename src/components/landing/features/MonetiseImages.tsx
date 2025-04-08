@@ -1,58 +1,102 @@
-import { useRef, useState } from "react";
-import monetise1 from "@/assets/optimized/monetise.png";
-import monetise2 from "@/assets/optimized/monetise2.png";
-import ResponsiveImage from "@/components/ui/responsive-image";
+import { useRef, useState, useEffect } from "react";
+import { gsap } from "gsap";
 
 const MonetiseImages = () => {
   const [isHovering, setIsHovering] = useState(false);
   const containerRef = useRef(null);
-  const image1Ref = useRef(null);
-  const image2Ref = useRef(null);
+  const counterRef = useRef(null);
+  const barRef = useRef(null);
+  const followersRef = useRef(null);
+
+  useEffect(() => {
+    // Initialize GSAP animations
+    if (isHovering) {
+      // Animate counter from +58 to +1435
+      gsap.to(counterRef.current, {
+        textContent: "+1435",
+        duration: 1.5,
+        ease: "power2.out",
+        snap: { textContent: 1 } // Snap to whole numbers
+      });
+
+      // Animate the bar height
+      gsap.to(barRef.current, {
+        height: "60%", 
+        duration: 1,
+        ease: "power2.out"
+      });
+
+      // Scale up the text
+      gsap.to([counterRef.current, followersRef.current], {
+        scale: 1.1,
+        duration: 0.3,
+        ease: "power2.out"
+      });
+    } else {
+      // Reset animations
+      gsap.to(counterRef.current, {
+        textContent: "+58",
+        duration: 1,
+        ease: "power2.out",
+        snap: { textContent: 1 } // Snap to whole numbers
+      });
+
+      gsap.to(barRef.current, {
+        height: "30%",
+        duration: 0.5,
+        ease: "power2.out"
+      });
+
+      gsap.to([counterRef.current, followersRef.current], {
+        scale: 1,
+        duration: 0.3,
+        ease: "power2.out"
+      });
+    }
+  }, [isHovering]);
 
   return (
     <div 
       ref={containerRef}
-      className="w-full h-full flex items-center justify-center relative overflow-hidden"
+      className="relative w-[240px] h-[130px] bg-white rounded-lg overflow-hidden cursor-pointer shadow-custom-blur"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      {/* First monetise image */}
-      <div ref={image1Ref} className="absolute" style={{ transform: 'scale(0.9)' }}>
-        <ResponsiveImage 
-          src={monetise1}
-          alt="Monetization metrics 1" 
-          className="w-auto h-[90px] max-h-[90px] object-contain" 
-          style={{
-            height: '90px',
-            maxHeight: '90px',
-            width: 'auto',
-            imageRendering: 'crisp-edges',
-            transform: isHovering ? 'scale(1.1)' : 'scale(1)',
-            transition: 'transform 0.3s ease-out'
-          }}
-          sizes={['90px']}
-          widths={[90, 180]}
-        />
+      {/* Counter Text - Positioned Top-Left */}
+      <div className="absolute top-4 left-4 z-20"> 
+        <div className="flex flex-col items-start"> {/* Align items start */}
+          <span 
+            ref={counterRef}
+            className="text-4xl font-bold text-black"
+            style={{ 
+              display: 'block',
+              transformOrigin: 'top left' // Adjust transform origin
+            }}
+          >
+            +58
+          </span>
+          <span 
+            ref={followersRef}
+            className="text-sm font-normal text-gray-500 mt-1"
+            style={{ 
+              display: 'block',
+              transformOrigin: 'top left' // Adjust transform origin
+            }}
+          >
+            Followers
+          </span>
+        </div>
       </div>
-      
-      {/* Second monetise image */}
-      <div ref={image2Ref} className="absolute" style={{ transform: 'scale(0.9)' }}>
-        <ResponsiveImage 
-          src={monetise2}
-          alt="Monetization metrics 2" 
-          className="w-auto h-[90px] max-h-[90px] object-contain" 
-          style={{
-            height: '90px',
-            maxHeight: '90px',
-            width: 'auto',
-            imageRendering: 'crisp-edges',
-            transform: isHovering ? 'scale(1.1)' : 'scale(1)',
-            transition: 'transform 0.3s ease-out'
-          }}
-          sizes={['90px']}
-          widths={[90, 180]}
-        />
-      </div>
+
+      {/* Blue Bar */}
+      <div 
+        ref={barRef}
+        className="absolute bottom-0 left-0 w-full bg-blue-200 transition-all duration-300 ease-out"
+        style={{ 
+          height: '30%',
+          zIndex: 10
+        }}
+      />
     </div>
   );
 };

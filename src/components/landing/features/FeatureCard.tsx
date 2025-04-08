@@ -129,7 +129,7 @@ const FeatureCard = ({ title, description, children, isWide = false }: FeatureCa
       onTouchStart={handleTouchStart}
     >
       <div 
-        className={`relative w-full h-[180px] sm:h-[140px] md:h-[160px] flex items-center justify-center overflow-visible mb-3 md:mb-4 transition-transform duration-300 ${isHovered && !isMobile ? 'transform scale-105' : ''}`}
+        className={`relative w-full h-[190px] sm:h-[170px] md:h-[180px] flex items-center justify-center overflow-hidden mb-3 md:mb-4 transition-transform duration-300 ${isHovered && !isMobile ? 'transform scale-105' : ''}`}
         style={{
           imageRendering: '-webkit-optimize-contrast',
           backfaceVisibility: 'hidden',

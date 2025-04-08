@@ -13,12 +13,11 @@ const MonetiseCard = () => {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      {/* Main image */}
       <img 
         ref={imageRef}
         src={accelerate} 
         alt="Growth metrics" 
-        className="w-auto max-h-[122px] object-contain relative z-10 transform-gpu"
+        className="w-auto max-h-[132px] object-contain relative z-10 transform-gpu"
         style={{ 
           imageRendering: 'crisp-edges',
           backfaceVisibility: 'hidden',
