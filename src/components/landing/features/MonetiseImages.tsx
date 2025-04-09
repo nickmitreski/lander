@@ -109,25 +109,18 @@ const MonetiseImages = () => {
       {/* Blue Bar */}
       <div 
         ref={barRef}
-        className="absolute bottom-0 left-0 w-full overflow-hidden"
+        className="absolute bottom-0 left-0 w-full bg-blue-200"
         style={{ 
           height: '30%',
-          zIndex: 10
+          zIndex: 10,
+          WebkitMaskImage: 'linear-gradient(to top, black 50%, transparent 100%)',
+          maskImage: 'linear-gradient(to top, black 50%, transparent 100%)',
+          WebkitMaskSize: '100% 200%',
+          maskSize: '100% 200%',
+          WebkitMaskPosition: 'left bottom',
+          maskPosition: 'left bottom'
         }}
-      >
-        {/* Main blue background */}
-        <div className="absolute bottom-0 left-0 w-full h-full bg-blue-200" />
-        
-        {/* Curved overlay */}
-        <div 
-          className="absolute -top-4 left-0 w-full h-8 bg-blue-200"
-          style={{
-            borderTopLeftRadius: '100%',
-            borderTopRightRadius: '100%',
-            transform: 'scaleX(1.5)'
-          }}
-        />
-      </div>
+      />
     </div>
   );
 };
