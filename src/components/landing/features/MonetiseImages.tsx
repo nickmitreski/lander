@@ -14,7 +14,11 @@ const MonetiseImages = () => {
     const isMobile = window.innerWidth < 640;
     
     gsap.set(counterRef.current, { textContent: "+58" });
-    gsap.set(barRef.current, { height: "30%" });
+    gsap.set(barRef.current, { 
+      height: "30%",
+      scaleY: 1,
+      clipPath: 'polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)'
+    });
     gsap.set([counterRef.current, followersRef.current], { scale: 1 });
 
     const tl = gsap.timeline({
@@ -40,6 +44,8 @@ const MonetiseImages = () => {
       })
       .to(barRef.current, {
         height: "60%",
+        scaleY: 2,
+        clipPath: 'polygon(0% 100%, 100% 100%, 100% 20%, 100% 20%, 80% 25%, 40% 40%, 0% 45%)',
         duration: 3.0,
         ease: "power2.out"
       }, "-=3.0")
@@ -56,6 +62,8 @@ const MonetiseImages = () => {
       })
       .to(barRef.current, {
         height: "30%",
+        scaleY: 1,
+        clipPath: 'polygon(0% 100%, 100% 100%, 100% 80%, 100% 80%, 80% 85%, 40% 90%, 0% 95%)',
         duration: 0.3,
         ease: "power1.in"
       }, "+=3.3")
@@ -80,6 +88,18 @@ const MonetiseImages = () => {
       ref={containerRef}
       className="relative w-[240px] h-[130px] bg-white rounded-lg overflow-hidden cursor-pointer shadow-custom-blur"
     >
+      {/* SVG Mask Definition */}
+      <svg width="0" height="0" viewBox="0 0 240 100">
+        <defs>
+          <mask id="waveMask" maskContentUnits="objectBoundingBox">
+            <path
+              d="M0,1 L1,1 L1,0 C0.75,0.3 0.5,0 0,0 Z"
+              fill="white"
+            />
+          </mask>
+        </defs>
+      </svg>
+
       {/* Counter Text - Positioned Top-Left */}
       <div className="absolute top-4 left-4 z-20"> 
         <div className="flex flex-col items-start">
@@ -113,12 +133,7 @@ const MonetiseImages = () => {
         style={{ 
           height: '30%',
           zIndex: 10,
-          WebkitMaskImage: 'linear-gradient(to top, black 50%, transparent 100%)',
-          maskImage: 'linear-gradient(to top, black 50%, transparent 100%)',
-          WebkitMaskSize: '100% 200%',
-          maskSize: '100% 200%',
-          WebkitMaskPosition: 'left bottom',
-          maskPosition: 'left bottom'
+          clipPath: 'polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)'
         }}
       />
     </div>
