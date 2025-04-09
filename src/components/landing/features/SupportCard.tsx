@@ -33,10 +33,11 @@ const SupportCard = () => {
         start: "top 80%", 
         toggleActions: "play pause resume reset",
       },
-      delay: 1,
+      delay: 0.5,
       repeat: -1,
       yoyo: true,
-      repeatDelay: 1
+      repeatDelay: 0.2,
+      yoyoEase: "power2.in"
     });
     
     // Animation sequence
@@ -45,7 +46,7 @@ const SupportCard = () => {
         y: -35,
         scale: 1,
         rotation: -2,
-        duration: 0.5,
+        duration: 0.6,
         ease: "power3.out"
       })
       .to(card2Ref.current, { 
@@ -53,9 +54,13 @@ const SupportCard = () => {
         y: 35,
         scale: 1,
         rotation: 2,
-        duration: 0.5,
+        duration: 0.6,
         ease: "power3.out"
-      }, "-=0.3");
+      }, "-=0.3")
+      // Add a pause state where both cards are fully visible
+      .to([card1Ref.current, card2Ref.current], {
+        duration: 2,
+      });
       
     // Cleanup
     return () => { 

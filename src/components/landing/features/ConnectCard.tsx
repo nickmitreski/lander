@@ -27,24 +27,23 @@ const ConnectCard = () => {
     const finalX1 = isMobile ? -45 : -25;
     const finalX3 = isMobile ? 45 : 25;
     
-    // Initial state
-    gsap.set(card1Ref.current, {
+    // Initial state - start with opacity 0 but in their initial positions
+    gsap.set([card1Ref.current, card2Ref.current, card3Ref.current], {
       opacity: 0,
+      scale: 0.9
+    });
+    gsap.set(card1Ref.current, {
       x: initialX1,
-      y: 10,
-      scale: 0.9,
+      y: 0,
       rotation: -5
     });
     gsap.set(card2Ref.current, {
-      opacity: 0,
-      y: -15,
-      scale: 0.9
+      x: 0,
+      y: 0
     });
     gsap.set(card3Ref.current, {
-      opacity: 0,
       x: initialX3,
-      y: 10,
-      scale: 0.9,
+      y: 0,
       rotation: 5
     });
 
@@ -52,46 +51,43 @@ const ConnectCard = () => {
       scrollTrigger: {
         trigger: containerRef.current,
         start: "top 80%",
-        toggleActions: "play pause resume reset",
+        toggleActions: "play none none reset",
       },
       defaults: { ease: "power3.out" },
-      delay: 1,
       repeat: -1,
-      yoyo: true,
-      repeatDelay: 1
+      repeatDelay: 2
     });
     
     // Animation sequence
-    tl.to(card2Ref.current, { 
-        opacity: 1, 
-        y: 0, 
+    tl
+      // Step 1: Fade in all cards
+      .to([card1Ref.current, card2Ref.current, card3Ref.current], {
+        opacity: 1,
         scale: 1,
         duration: 0.6,
-        delay: 0.1 // Slight delay for center card
+        stagger: 0.1
       })
-      .to(card1Ref.current, { 
-        opacity: 1, 
-        x: finalX1, 
-        y: 0, 
-        scale: 1, 
-        rotation: -5,
-        duration: 0.5,
-      }, "-=0.4") // Overlap slightly
-      .to(card3Ref.current, { 
-        opacity: 1, 
-        x: finalX3, 
-        y: 0, 
-        scale: 1, 
-        rotation: 5,
-        duration: 0.5
-      }, "<" ); // Start at the same time as card1 animation
+      // Step 2: Move cards closer together and increase size
+      .to([card1Ref.current, card3Ref.current], {
+        x: (i) => i === 0 ? initialX1 * 0.2 : initialX3 * 0.2,  // Move even closer (20% of initial offset)
+        scale: 1.1,  // Increase size by 10%
+        duration: 0.8,
+        ease: "power2.inOut"
+      }, "+=1")
+      // Step 3: Move cards back out and return to original size
+      .to([card1Ref.current, card3Ref.current], {
+        x: (i) => i === 0 ? initialX1 : initialX3,
+        scale: 1,  // Return to original size
+        duration: 0.8,
+        ease: "power2.inOut"
+      }, "+=0.5");
 
     // Cleanup
     return () => { 
-        if (tl.scrollTrigger) {
-            tl.scrollTrigger.kill();
-        }
-        tl.kill();
+      if (tl.scrollTrigger) {
+        tl.scrollTrigger.kill();
+      }
+      tl.kill();
     }
   }, []);
 

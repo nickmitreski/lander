@@ -19,9 +19,10 @@ const MonetiseImages = () => {
       scrollTrigger: {
         trigger: containerRef.current,
         start: "top 80%",
-        toggleActions: "play none none none",
-        once: true
+        toggleActions: "play none none reset"
       },
+      repeat: -1,
+      repeatDelay: 3,
       delay: 1
     });
 
@@ -40,7 +41,24 @@ const MonetiseImages = () => {
         scale: 1.1,
         duration: 1.5,
         ease: "power2.out"
-      }, "-=4.5");
+      }, "-=4.5")
+      .to({}, { duration: 3 })
+      .to([counterRef.current, followersRef.current], {
+        scale: 1,
+        duration: 0.3,
+        ease: "power1.in"
+      })
+      .to(barRef.current, {
+        height: "30%",
+        duration: 0.3,
+        ease: "power1.in"
+      }, "<")
+      .to(counterRef.current, {
+        textContent: "+58",
+        duration: 0.3,
+        snap: { textContent: 1 },
+        ease: "power1.in"
+      }, "<");
       
     return () => { 
         if (tl.scrollTrigger) {
