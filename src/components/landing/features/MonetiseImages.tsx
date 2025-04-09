@@ -25,12 +25,11 @@ const MonetiseImages = () => {
       },
       repeat: -1,
       repeatDelay: 3,
-      delay: isMobile ? 1.5 : 1  // Longer initial delay on mobile
+      delay: isMobile ? 1.5 : 1
     });
 
-    // Add initial pause on mobile
     if (isMobile) {
-      tl.to({}, { duration: 1 });  // Hold initial state for 1 second
+      tl.to({}, { duration: 1 });
     }
 
     tl.to(counterRef.current, {
@@ -40,7 +39,7 @@ const MonetiseImages = () => {
         snap: { textContent: 1 }
       })
       .to(barRef.current, {
-        height: "60%", 
+        height: "60%",
         duration: 3.0,
         ease: "power2.out"
       }, "-=3.0")
@@ -59,7 +58,7 @@ const MonetiseImages = () => {
         height: "30%",
         duration: 0.3,
         ease: "power1.in"
-      }, "<")
+      }, "+=3.3")
       .to(counterRef.current, {
         textContent: "+58",
         duration: 0.3,
@@ -110,12 +109,25 @@ const MonetiseImages = () => {
       {/* Blue Bar */}
       <div 
         ref={barRef}
-        className="absolute bottom-0 left-0 w-full bg-blue-200 transition-all duration-300 ease-out"
+        className="absolute bottom-0 left-0 w-full overflow-hidden"
         style={{ 
           height: '30%',
           zIndex: 10
         }}
-      />
+      >
+        {/* Main blue background */}
+        <div className="absolute bottom-0 left-0 w-full h-full bg-blue-200" />
+        
+        {/* Curved overlay */}
+        <div 
+          className="absolute -top-4 left-0 w-full h-8 bg-blue-200"
+          style={{
+            borderTopLeftRadius: '100%',
+            borderTopRightRadius: '100%',
+            transform: 'scaleX(1.5)'
+          }}
+        />
+      </div>
     </div>
   );
 };
