@@ -11,6 +11,8 @@ const MonetiseImages = () => {
   const followersRef = useRef(null);
 
   useEffect(() => {
+    const isMobile = window.innerWidth < 640;
+    
     gsap.set(counterRef.current, { textContent: "+58" });
     gsap.set(barRef.current, { height: "30%" });
     gsap.set([counterRef.current, followersRef.current], { scale: 1 });
@@ -23,8 +25,13 @@ const MonetiseImages = () => {
       },
       repeat: -1,
       repeatDelay: 3,
-      delay: 1
+      delay: isMobile ? 1.5 : 1  // Longer initial delay on mobile
     });
+
+    // Add initial pause on mobile
+    if (isMobile) {
+      tl.to({}, { duration: 1 });  // Hold initial state for 1 second
+    }
 
     tl.to(counterRef.current, {
         textContent: "+1435",

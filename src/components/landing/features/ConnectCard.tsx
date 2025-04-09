@@ -22,8 +22,8 @@ const ConnectCard = () => {
 
   useEffect(() => {
     const isMobile = window.innerWidth < 640;
-    const initialX1 = isMobile ? -35 : -15;
-    const initialX3 = isMobile ? 35 : 15;
+    const initialX1 = isMobile ? -60 : -15;  // Much further left on mobile
+    const initialX3 = isMobile ? 60 : 15;    // Much further right on mobile
     const finalX1 = isMobile ? -45 : -25;
     const finalX3 = isMobile ? 45 : 25;
     
