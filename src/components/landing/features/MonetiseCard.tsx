@@ -1,17 +1,53 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import accelerate from "@/assets/accelerate.png";
+import { gsap } from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const MonetiseCard = () => {
   const containerRef = useRef(null);
   const imageRef = useRef(null);
-  const [isHovering, setIsHovering] = useState(false);
+
+  useEffect(() => {
+    // Ensure the element exists before setting/animating
+    if (!imageRef.current || !containerRef.current) return;
+
+    gsap.set(imageRef.current, { scale: 1 });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top 80%",
+        toggleActions: "play pause resume reset", // Play on enter, pause/resume
+      },
+      delay: 1,
+      repeat: -1, // Repeat indefinitely
+      yoyo: true, // Go back and forth
+      repeatDelay: 0.5 // Pause slightly between repeats
+    });
+
+    tl.to(imageRef.current, { 
+      scale: 1.1,
+      duration: 2,
+      ease: "power1.inOut"
+    });
+
+    // Cleanup function
+    return () => { 
+      // Check if scrollTrigger exists before killing
+      if (tl.scrollTrigger) {
+        tl.scrollTrigger.kill();
+      }
+      tl.kill(); // Kill the timeline itself
+    }
+
+  }, []); // Empty dependency array ensures this runs once on mount
 
   return (
     <div 
       ref={containerRef}
       className="w-full h-full flex items-center justify-center relative overflow-hidden"
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
     >
       <img 
         ref={imageRef}
@@ -21,9 +57,7 @@ const MonetiseCard = () => {
         style={{ 
           imageRendering: 'crisp-edges',
           backfaceVisibility: 'hidden',
-          willChange: 'transform',
-          transform: isHovering ? 'scale(1.1)' : 'scale(1)',
-          transition: 'transform 0.3s ease-out'
+          willChange: 'transform'
         }}
       />
     </div>

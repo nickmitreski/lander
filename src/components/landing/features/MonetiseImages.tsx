@@ -1,106 +1,70 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const MonetiseImages = () => {
-  const [isHovering, setIsHovering] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
   const containerRef = useRef(null);
   const counterRef = useRef(null);
   const barRef = useRef(null);
   const followersRef = useRef(null);
 
   useEffect(() => {
-    // Check if mobile on initial mount and resize
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768); // Use 768px as the breakpoint (adjust if needed)
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+    gsap.set(counterRef.current, { textContent: "+58" });
+    gsap.set(barRef.current, { height: "30%" });
+    gsap.set([counterRef.current, followersRef.current], { scale: 1 });
 
-  useEffect(() => {
-    // Initialize GSAP animations based on isHovering state
-    if (isHovering) {
-      // Animate counter from +58 to +1435
-      gsap.to(counterRef.current, {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top 80%",
+        toggleActions: "play none none none",
+        once: true
+      },
+      delay: 1
+    });
+
+    tl.to(counterRef.current, {
         textContent: "+1435",
-        duration: 1.5,
+        duration: 4.5,
         ease: "power2.out",
-        snap: { textContent: 1 } // Snap to whole numbers
-      });
-
-      // Animate the bar height
-      gsap.to(barRef.current, {
+        snap: { textContent: 1 }
+      })
+      .to(barRef.current, {
         height: "60%", 
-        duration: 1,
+        duration: 3.0,
         ease: "power2.out"
-      });
-
-      // Scale up the text
-      gsap.to([counterRef.current, followersRef.current], {
+      }, "-=3.0")
+      .to([counterRef.current, followersRef.current], {
         scale: 1.1,
-        duration: 0.3,
+        duration: 1.5,
         ease: "power2.out"
-      });
-    } else {
-      // Reset animations (ensure initial state)
-      gsap.to(counterRef.current, {
-        textContent: "+58",
-        duration: 1,
-        ease: "power2.out",
-        snap: { textContent: 1 } // Snap to whole numbers
-      });
-
-      gsap.to(barRef.current, {
-        height: "30%",
-        duration: 0.5,
-        ease: "power2.out"
-      });
-
-      gsap.to([counterRef.current, followersRef.current], {
-        scale: 1,
-        duration: 0.3,
-        ease: "power2.out"
-      });
+      }, "-=4.5");
+      
+    return () => { 
+        if (tl.scrollTrigger) {
+            tl.scrollTrigger.kill();
+        }
+        tl.kill();
     }
-  }, [isHovering]);
 
-  const handleMouseEnter = () => {
-    if (!isMobile) {
-      setIsHovering(true);
-    }
-  };
-
-  const handleMouseLeave = () => {
-    if (!isMobile) {
-      setIsHovering(false);
-    }
-  };
-
-  const handleClick = () => {
-    if (isMobile) {
-      setIsHovering(prev => !prev); // Toggle state on mobile click/tap
-    }
-  };
+  }, []);
 
   return (
     <div 
       ref={containerRef}
       className="relative w-[240px] h-[130px] bg-white rounded-lg overflow-hidden cursor-pointer shadow-custom-blur"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onClick={handleClick}
     >
       {/* Counter Text - Positioned Top-Left */}
       <div className="absolute top-4 left-4 z-20"> 
-        <div className="flex flex-col items-start"> {/* Align items start */}
+        <div className="flex flex-col items-start">
           <span 
             ref={counterRef}
             className="text-4xl font-bold text-black"
             style={{ 
               display: 'block',
-              transformOrigin: 'top left' // Adjust transform origin
+              transformOrigin: 'top left'
             }}
           >
             +58
@@ -110,7 +74,7 @@ const MonetiseImages = () => {
             className="text-sm font-normal text-gray-500 mt-1"
             style={{ 
               display: 'block',
-              transformOrigin: 'top left' // Adjust transform origin
+              transformOrigin: 'top left'
             }}
           >
             Followers

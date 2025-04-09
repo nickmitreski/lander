@@ -1,102 +1,69 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import personalSupport1 from "@/assets/personalsupportmessage1.png";
 import personalSupport2 from "@/assets/personalsupportmessage2.png";
 import { gsap } from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
 import ResponsiveImage from "@/components/ui/responsive-image";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const SupportCard = () => {
   const containerRef = useRef(null);
   const card1Ref = useRef(null);
   const card2Ref = useRef(null);
-  const [isHovered, setIsHovered] = useState(false);
   
   useEffect(() => {
-    const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
-    
-    // Initial state
+    // Initial state (before animation)
     gsap.set(card1Ref.current, {
       opacity: 0,
       y: -45,
       scale: 0.9,
       rotation: -2
     });
-    
     gsap.set(card2Ref.current, {
       opacity: 0,
       y: 45,
       scale: 0.9,
       rotation: 2
     });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top 80%", 
+        toggleActions: "play pause resume reset",
+      },
+      delay: 1,
+      repeat: -1,
+      yoyo: true,
+      repeatDelay: 1
+    });
     
     // Animation sequence
-    timeline
-      .to(card1Ref.current, { 
+    tl.to(card1Ref.current, { 
         opacity: 1, 
         y: -35,
         scale: 1,
         rotation: -2,
-        duration: 0.5
+        duration: 0.5,
+        ease: "power3.out"
       })
       .to(card2Ref.current, { 
         opacity: 1, 
         y: 35,
         scale: 1,
         rotation: 2,
-        duration: 0.5
+        duration: 0.5,
+        ease: "power3.out"
       }, "-=0.3");
       
-    // Hover effect
-    const hoverEffect = () => {
-      setIsHovered(true);
-      gsap.to(card1Ref.current, { 
-        y: -40,
-        scale: 1.05,
-        rotation: -5,
-        duration: 0.3,
-        ease: "power2.out"
-      });
-      
-      gsap.to(card2Ref.current, { 
-        y: 40,
-        scale: 1.05,
-        rotation: 5,
-        duration: 0.3,
-        ease: "power2.out"
-      });
-    };
-    
-    const resetPosition = () => {
-      setIsHovered(false);
-      gsap.to(card1Ref.current, { 
-        y: -35,
-        scale: 1,
-        rotation: -2,
-        duration: 0.3,
-        ease: "power2.out"
-      });
-      
-      gsap.to(card2Ref.current, { 
-        y: 35,
-        scale: 1,
-        rotation: 2,
-        duration: 0.3,
-        ease: "power2.out"
-      });
-    };
-    
-    // Add event listeners
-    if (containerRef.current) {
-      containerRef.current.addEventListener('mouseenter', hoverEffect);
-      containerRef.current.addEventListener('mouseleave', resetPosition);
-    }
-    
     // Cleanup
-    return () => {
-      if (containerRef.current) {
-        containerRef.current.removeEventListener('mouseenter', hoverEffect);
-        containerRef.current.removeEventListener('mouseleave', resetPosition);
-      }
-    };
+    return () => { 
+        if (tl.scrollTrigger) {
+            tl.scrollTrigger.kill();
+        }
+        tl.kill();
+    }
   }, []);
 
   return (

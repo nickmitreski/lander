@@ -1,16 +1,18 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import connect1 from "@/assets/optimized/connet1.png";
 import connect2 from "@/assets/optimized/connect2.png";
 import connect3 from "@/assets/optimized/connect3.png";
 import { gsap } from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
 import ResponsiveImage from "@/components/ui/responsive-image";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const ConnectCard = () => {
   const containerRef = useRef(null);
   const card1Ref = useRef(null);
   const card2Ref = useRef(null);
   const card3Ref = useRef(null);
-  const [isActive, setIsActive] = useState(false);
   
   // Add timestamp to bypass caching
   const timestamp = new Date().getTime();
@@ -18,159 +20,79 @@ const ConnectCard = () => {
   const connect2WithTimestamp = `${connect2}?t=${timestamp}`;
   const connect3WithTimestamp = `${connect3}?t=${timestamp}`;
 
-  // Remove the pulse animation that adds visible elements around images
   useEffect(() => {
-    const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
+    const isMobile = window.innerWidth < 640;
+    const initialX1 = isMobile ? -35 : -15;
+    const initialX3 = isMobile ? 35 : 15;
+    const finalX1 = isMobile ? -45 : -25;
+    const finalX3 = isMobile ? 45 : 25;
     
-    // Initial state - with responsive spacing
+    // Initial state
     gsap.set(card1Ref.current, {
       opacity: 0,
-      x: window.innerWidth < 640 ? -35 : -15,  // More space on mobile
+      x: initialX1,
       y: 10,
       scale: 0.9,
       rotation: -5
     });
-    
     gsap.set(card2Ref.current, {
       opacity: 0,
       y: -15,
       scale: 0.9
     });
-    
     gsap.set(card3Ref.current, {
       opacity: 0,
-      x: window.innerWidth < 640 ? 35 : 15,  // More space on mobile
+      x: initialX3,
       y: 10,
       scale: 0.9,
       rotation: 5
     });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top 80%",
+        toggleActions: "play pause resume reset",
+      },
+      defaults: { ease: "power3.out" },
+      delay: 1,
+      repeat: -1,
+      yoyo: true,
+      repeatDelay: 1
+    });
     
-    // Animation sequence with responsive positioning
-    timeline
-      .to(card2Ref.current, { 
+    // Animation sequence
+    tl.to(card2Ref.current, { 
         opacity: 1, 
         y: 0, 
         scale: 1,
         duration: 0.6,
-        delay: 0.3
+        delay: 0.1 // Slight delay for center card
       })
       .to(card1Ref.current, { 
         opacity: 1, 
-        x: window.innerWidth < 640 ? -45 : -25,  // More space on mobile
+        x: finalX1, 
         y: 0, 
         scale: 1, 
         rotation: -5,
         duration: 0.5,
-      }, "-=0.3")
+      }, "-=0.4") // Overlap slightly
       .to(card3Ref.current, { 
         opacity: 1, 
-        x: window.innerWidth < 640 ? 45 : 25,  // More space on mobile
+        x: finalX3, 
         y: 0, 
         scale: 1, 
         rotation: 5,
         duration: 0.5
-      }, "-=0.3");
-
-    const hoverEffect = (e) => {
-      setIsActive(true);
-      const { clientX, clientY } = e;
-      const container = containerRef.current;
-      const rect = container.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      
-      const moveX = (clientX - centerX) / 12;
-      const moveY = (clientY - centerY) / 12;
-      
-      const isMobile = window.innerWidth < 640;
-      const baseX = isMobile ? 35 : 15;  // Base position for hover state
-      
-      // On hover, bring images closer together
-      gsap.to(card1Ref.current, { 
-        x: -baseX - moveX,
-        y: -moveY, 
-        rotation: -moveX / 2 - 3,
-        scale: 1.15,
-        duration: 0.4,
-        ease: "power2.out"
-      });
-      
-      gsap.to(card2Ref.current, { 
-        x: moveX / 2, 
-        y: moveY / 2, 
-        rotation: moveY / 4,
-        scale: 1.2,
-        duration: 0.4,
-        ease: "power2.out",
-        zIndex: 30
-      });
-      
-      gsap.to(card3Ref.current, { 
-        x: baseX + moveX,
-        y: -moveY, 
-        rotation: moveX / 2 + 3,
-        scale: 1.15,
-        duration: 0.4,
-        ease: "power2.out"
-      });
-    };
-
-    const resetPosition = () => {
-      setIsActive(false);
-      const isMobile = window.innerWidth < 640;
-      const baseX = isMobile ? 45 : 25;  // Base position for non-hover state
-      
-      // Reset to initial positions with more space on mobile
-      gsap.to(card1Ref.current, { 
-        x: -baseX,
-        y: 0, 
-        rotation: -5,
-        scale: 1,
-        boxShadow: 'none',
-        duration: 0.8,
-        ease: "elastic.out(1, 0.5)"
-      });
-      
-      gsap.to(card2Ref.current, { 
-        x: 0,
-        y: 0, 
-        rotation: 0,
-        scale: 1,
-        boxShadow: 'none',
-        duration: 0.8,
-        ease: "elastic.out(1, 0.5)"
-      });
-      
-      gsap.to(card3Ref.current, { 
-        x: baseX,
-        y: 0, 
-        rotation: 5,
-        scale: 1,
-        boxShadow: 'none',
-        duration: 0.8,
-        ease: "elastic.out(1, 0.5)"
-      });
-      
-      // Reset container background
-      gsap.to(containerRef.current, {
-        backgroundColor: 'transparent',
-        duration: 0.3
-      });
-    };
-
-    // Add event listeners
-    if (containerRef.current) {
-      containerRef.current.addEventListener('mouseenter', hoverEffect);
-      containerRef.current.addEventListener('mouseleave', resetPosition);
-    }
+      }, "<" ); // Start at the same time as card1 animation
 
     // Cleanup
-    return () => {
-      if (containerRef.current) {
-        containerRef.current.removeEventListener('mouseenter', hoverEffect);
-        containerRef.current.removeEventListener('mouseleave', resetPosition);
-      }
-    };
+    return () => { 
+        if (tl.scrollTrigger) {
+            tl.scrollTrigger.kill();
+        }
+        tl.kill();
+    }
   }, []);
 
   return (
@@ -179,7 +101,7 @@ const ConnectCard = () => {
       className="w-full h-full relative flex items-center justify-center"
     >
       {/* Left card */}
-      <div ref={card1Ref} className="absolute left-[25%]">  {/* Increased from 20% */}
+      <div ref={card1Ref} className="absolute left-[25%]">
         <ResponsiveImage 
           src={connect1WithTimestamp} 
           alt="User profile 1" 
@@ -211,7 +133,7 @@ const ConnectCard = () => {
       </div>
       
       {/* Right card */}
-      <div ref={card3Ref} className="absolute right-[25%]">  {/* Increased from 20% */}
+      <div ref={card3Ref} className="absolute right-[25%]">
         <ResponsiveImage 
           src={connect3WithTimestamp} 
           alt="User profile 3" 
