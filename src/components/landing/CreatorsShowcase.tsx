@@ -156,7 +156,7 @@ const PhoneMockupsShowcase = () => {
                 className="testimonial-video transform transition duration-300 hover:-translate-y-1 relative flex-shrink-0 w-[280px] md:w-[260px] lg:w-[270px]"
               >
                 {/* Text overlay at top */}
-                <div className="w-full bg-gradient-to-b from-black/80 to-transparent absolute top-0 left-0 right-0 z-10 p-4 rounded-t-lg">
+                <div className="w-full bg-gradient-to-b from-black/80 to-transparent absolute top-0 left-0 right-0 z-40 p-4 rounded-t-lg">
                   <h3 className="text-white text-xl font-medium">{testimonial.name}</h3>
                   <p className="text-white/80 text-sm">{testimonial.title}</p>
                   <p className="text-white/60 text-xs mt-1">{testimonial.location}</p>
