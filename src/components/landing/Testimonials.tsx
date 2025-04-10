@@ -27,7 +27,7 @@ export const Testimonials = () => {
   
   // Reset visible count when filter changes or screen size changes
   useEffect(() => {
-    setVisibleCount(isMobile ? 3 : 9);
+    setVisibleCount(isMobile ? 3 : 6);
   }, [filter, isMobile]);
 
   // Define avatar images for reuse
