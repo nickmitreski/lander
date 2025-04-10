@@ -175,7 +175,7 @@ const PhoneMockupsShowcase = () => {
 
                   {/* Black blocker - only show when video is not playing */}
                   <div 
-                    className="absolute inset-0 bg-black z-10"
+                    className="absolute inset-0 bg-black z-5"
                     style={{ display: playingVideos[testimonial.id] ? 'none' : 'block' }}
                   />
 
