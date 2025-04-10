@@ -13,6 +13,8 @@ const PhoneMockupsShowcase = () => {
   const videosRef = useRef<HTMLDivElement>(null);
   // Track which videos are playing
   const [playingVideos, setPlayingVideos] = useState<{[key: number]: boolean}>({});
+  // Track which videos are loading
+  const [loadingVideos, setLoadingVideos] = useState<{[key: number]: boolean}>({});
 
   // Create array with 4 testimonial videos
   const testimonials = [
@@ -49,6 +51,41 @@ const PhoneMockupsShowcase = () => {
       thumbnail: `/Testimonial_Personal_Trainer_thumb.jpg?t=${timestamp}`
     }
   ];
+
+  // Preload videos
+  useEffect(() => {
+    // Create hidden video elements for preloading
+    testimonials.forEach(testimonial => {
+      // Method 1: Use link preload
+      const preloadVideo = document.createElement('link');
+      preloadVideo.rel = 'preload';
+      preloadVideo.href = testimonial.video;
+      preloadVideo.as = 'video';
+      preloadVideo.type = 'video/mp4';
+      document.head.appendChild(preloadVideo);
+      
+      // Method 2: Pre-fetch the first chunk of each video (more efficient)
+      fetch(testimonial.video, {
+        method: 'GET',
+        headers: {
+          Range: 'bytes=0-1000000' // Fetch first ~1MB of each video
+        },
+        cache: 'force-cache'
+      }).catch(err => console.log('Prefetch error:', err));
+    });
+    
+    // Initialize empty videos
+    setTimeout(() => {
+      testimonials.forEach(testimonial => {
+        const videoEl = document.getElementById(`video-${testimonial.id}`) as HTMLVideoElement;
+        if (videoEl) {
+          // Prepare video element with empty source that will be replaced when playing
+          videoEl.innerHTML = `<source src="data:video/mp4;base64," type="video/mp4">`;
+          videoEl.load();
+        }
+      });
+    }, 1000); // Wait a second after component mounts
+  }, []);
 
   useEffect(() => {
     // Add animation for videos
@@ -89,6 +126,9 @@ const PhoneMockupsShowcase = () => {
 
   // Toggle video play/pause
   const toggleVideo = (id: number) => {
+    // If video is already loading, don't do anything
+    if (loadingVideos[id]) return;
+    
     setPlayingVideos(prev => {
       const newState = { ...prev, [id]: !prev[id] };
       
@@ -99,6 +139,9 @@ const PhoneMockupsShowcase = () => {
           if (newState[id]) {
             // Keep the thumbnail visible until video is ready to play
             const thumbnail = document.getElementById(`thumbnail-${id}`);
+            
+            // Set loading state
+            setLoadingVideos(prev => ({ ...prev, [id]: true }));
             
             // Set video sources only when playing
             const videoSrc = testimonials.find(t => t.id === id)?.video || '';
@@ -119,11 +162,14 @@ const PhoneMockupsShowcase = () => {
                   if (thumbnail) {
                     thumbnail.style.display = 'none';
                   }
+                  // Reset loading state
+                  setLoadingVideos(prev => ({ ...prev, [id]: false }));
                 })
                 .catch((error) => {
                   console.log("Video play error:", error);
-                  // On error, reset the state
+                  // On error, reset the states
                   setPlayingVideos(prev => ({ ...prev, [id]: false }));
+                  setLoadingVideos(prev => ({ ...prev, [id]: false }));
                 });
             }
           } else {
@@ -220,9 +266,15 @@ const PhoneMockupsShowcase = () => {
                   <button 
                     className="absolute inset-0 w-full h-full flex items-center justify-center z-30"
                     onClick={() => toggleVideo(testimonial.id)}
+                    disabled={loadingVideos[testimonial.id]}
                   >
-                    <div className={`bg-white/30 backdrop-blur-sm rounded-full p-5 hover:bg-white/40 transition duration-200 ${playingVideos[testimonial.id] ? 'opacity-0 hover:opacity-100' : 'opacity-100'}`}>
-                      {playingVideos[testimonial.id] ? (
+                    <div className={`${loadingVideos[testimonial.id] ? 'bg-white/20' : 'bg-white/30'} backdrop-blur-sm rounded-full p-5 hover:bg-white/40 transition duration-200 ${playingVideos[testimonial.id] ? 'opacity-0 hover:opacity-100' : 'opacity-100'}`}>
+                      {loadingVideos[testimonial.id] ? (
+                        <svg className="w-10 h-10 text-white animate-spin" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                      ) : playingVideos[testimonial.id] ? (
                         <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
                         </svg>
