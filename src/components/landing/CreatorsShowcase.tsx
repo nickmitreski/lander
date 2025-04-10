@@ -97,17 +97,45 @@ const PhoneMockupsShowcase = () => {
         const videoEl = document.getElementById(`video-${id}`) as HTMLVideoElement;
         if (videoEl) {
           if (newState[id]) {
+            // Keep the thumbnail visible until video is ready to play
+            const thumbnail = document.getElementById(`thumbnail-${id}`);
+            
             // Set video sources only when playing
             const videoSrc = testimonials.find(t => t.id === id)?.video || '';
             videoEl.innerHTML = `
-              <source src="${videoSrc}" type="video/quicktime" />
-              <source src="${videoSrc.replace('.mov', '.mp4')}" type="video/mp4" />
+              <source src="${videoSrc}" type="video/mp4" />
             `;
             videoEl.load();
-            videoEl.play();
+            
+            // Show video only when it's ready to play
+            videoEl.style.visibility = 'visible';
+            
+            // Play the video and hide thumbnail once it's ready
+            const playPromise = videoEl.play();
+            if (playPromise !== undefined) {
+              playPromise
+                .then(() => {
+                  // Video is playing, now hide the thumbnail
+                  if (thumbnail) {
+                    thumbnail.style.display = 'none';
+                  }
+                })
+                .catch((error) => {
+                  console.log("Video play error:", error);
+                  // On error, reset the state
+                  setPlayingVideos(prev => ({ ...prev, [id]: false }));
+                });
+            }
           } else {
+            // Show thumbnail when pausing
+            const thumbnail = document.getElementById(`thumbnail-${id}`);
+            if (thumbnail) {
+              thumbnail.style.display = 'block';
+            }
+            
             videoEl.pause();
             videoEl.currentTime = 0;
+            videoEl.style.visibility = 'hidden';
             // Clear video sources when paused
             videoEl.innerHTML = '';
           }
@@ -167,7 +195,7 @@ const PhoneMockupsShowcase = () => {
                   {/* Video element */}
                   <video 
                     className="w-full h-full object-cover rounded-lg"
-                    style={{ visibility: playingVideos[testimonial.id] ? 'visible' : 'hidden' }}
+                    style={{ visibility: 'hidden' }}
                     loop
                     playsInline
                     id={`video-${testimonial.id}`}
@@ -181,10 +209,11 @@ const PhoneMockupsShowcase = () => {
 
                   {/* Thumbnail overlay */}
                   <img 
+                    id={`thumbnail-${testimonial.id}`}
                     src={testimonial.thumbnail}
                     alt={`${testimonial.name} thumbnail`}
                     className="absolute inset-0 w-full h-full object-cover z-20"
-                    style={{ display: playingVideos[testimonial.id] ? 'none' : 'block' }}
+                    style={{ display: 'block' }}
                   />
                   
                   {/* Play button overlay */}
