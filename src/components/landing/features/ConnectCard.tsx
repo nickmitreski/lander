@@ -22,10 +22,10 @@ const ConnectCard = () => {
 
   useEffect(() => {
     const isMobile = window.innerWidth < 640;
-    const initialX1 = isMobile ? -60 : -15;  // Much further left on mobile
-    const initialX3 = isMobile ? 60 : 15;    // Much further right on mobile
-    const finalX1 = isMobile ? -45 : -25;
-    const finalX3 = isMobile ? 45 : 25;
+    const initialX1 = isMobile ? -100 : -15;  // Much further left on mobile
+    const initialX3 = isMobile ? 100 : 15;    // Much further right on mobile
+    const finalX1 = isMobile ? -80 : -25;
+    const finalX3 = isMobile ? 80 : 25;
     
     // Initial state - start with opacity 0 but in their initial positions
     gsap.set([card1Ref.current, card2Ref.current, card3Ref.current], {
@@ -97,7 +97,7 @@ const ConnectCard = () => {
       className="w-full h-full relative flex items-center justify-center"
     >
       {/* Left card */}
-      <div ref={card1Ref} className="absolute left-[25%]">
+      <div ref={card1Ref} className="absolute left-[15%] sm:left-[25%]">
         <ResponsiveImage 
           src={connect1WithTimestamp} 
           alt="User profile 1" 
@@ -129,7 +129,7 @@ const ConnectCard = () => {
       </div>
       
       {/* Right card */}
-      <div ref={card3Ref} className="absolute right-[25%]">
+      <div ref={card3Ref} className="absolute right-[15%] sm:right-[25%]">
         <ResponsiveImage 
           src={connect3WithTimestamp} 
           alt="User profile 3" 
