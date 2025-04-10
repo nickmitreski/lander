@@ -6,6 +6,9 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
+// Add timestamp to ensure new thumbnails are loaded
+const timestamp = Date.now();
+
 const PhoneMockupsShowcase = () => {
   const videosRef = useRef<HTMLDivElement>(null);
   // Track which videos are playing
@@ -19,7 +22,7 @@ const PhoneMockupsShowcase = () => {
       title: "Actress",
       location: "LA",
       video: "/Testimonial_Actress.mp4",
-      thumbnail: "/Testimonial_Actress_thumb.jpg"
+      thumbnail: `/Testimonial_Actress_thumb.jpg?t=${timestamp}`
     },
     {
       id: 2,
@@ -27,7 +30,7 @@ const PhoneMockupsShowcase = () => {
       title: "Business Owner",
       location: "Melbourne",
       video: "/Testimonial_Business_Owner.mp4",
-      thumbnail: "/Testimonial_Business_Owner_thumb.jpg"
+      thumbnail: `/Testimonial_Business_Owner_thumb.jpg?t=${timestamp}`
     },
     {
       id: 3,
@@ -35,7 +38,7 @@ const PhoneMockupsShowcase = () => {
       title: "Influencer",
       location: "Madrid",
       video: "/Testimonial_Influencer.mp4",
-      thumbnail: "/Testimonial_Influencer_thumb.jpg"
+      thumbnail: `/Testimonial_Influencer_thumb.jpg?t=${timestamp}`
     },
     {
       id: 4,
@@ -43,7 +46,7 @@ const PhoneMockupsShowcase = () => {
       title: "Personal Trainer",
       location: "Dubai",
       video: "/Testimonial_Personal_Trainer.mp4",
-      thumbnail: "/Testimonial_Personal_Trainer_thumb.jpg"
+      thumbnail: `/Testimonial_Personal_Trainer_thumb.jpg?t=${timestamp}`
     }
   ];
 
