@@ -1,5 +1,6 @@
 # Dependencies
 /node_modules
+node_modules/
 /.pnp
 .pnp.js
 
@@ -9,9 +10,11 @@
 # Production
 /build
 /dist
+dist/
 
 # Misc
 .DS_Store
+**/.DS_Store
 .env
 .env.local
 .env.development.local
@@ -22,11 +25,14 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+logs
+*.log
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 .idea
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
@@ -35,3 +41,21 @@ yarn-error.log*
 
 # Vercel
 .vercel
+
+# macOS
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
